@@ -32,6 +32,3 @@ async function Producer() {
   
   await producer.disconnect();
 }
-
-Producer();
-Consumer();
