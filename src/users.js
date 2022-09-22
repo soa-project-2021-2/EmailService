@@ -16,7 +16,7 @@ const User = database.define('user', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    last_send: Sequelize.DATE
+    send_email: Sequelize.BOOLEAN,
 })
  
 module.exports = User;
