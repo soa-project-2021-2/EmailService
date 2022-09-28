@@ -1,11 +1,11 @@
 const database = require('./db');
 const User = require('./users');
-const Product = require('./products');
 
-async function createUser(name, email, send_email) {
+async function createUser(id, name, email, send_email) {
     try {
         await database.sync();
         const resultadoCreate = await User.create({
+            id: id,
             name: name,
             email: email,
             send_email: send_email
@@ -16,19 +16,34 @@ async function createUser(name, email, send_email) {
     }
 }
 
-async function createProduct(name, price) {
+async function getUserById(id) {
     try {
         await database.sync();
-        const resultadoCreate = await Product.create({
-            name: name,
-            price: price
-        })
-        console.log(resultadoCreate);
+        const user = await User.findByPk(id);
+        if (user === null) {
+            console.log("User not found!");
+        } else {
+            return user.dataValues;
+        }
     } catch (error) {
         console.log(error);
     }
 }
 
+async function getUsers() {
+    try {
+        await database.sync();
+        const users = await User.findAll({
+            where: {
+                send_email: 1
+            }
+        });
+        return users
+    } catch (error) {
+        console.log(error);
+    }
+}
 
-exports.createProduct = createProduct
 exports.createUser = createUser
+exports.getUserById = getUserById
+exports.getUsers = getUsers
